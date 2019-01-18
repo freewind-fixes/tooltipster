@@ -16,7 +16,7 @@
     // like Node.
     module.exports = factory(require("jquery"));
   } else {
-    factory(jQuery);
+    factory(root["jQuery"]);
   }
 }(this, function ($) {
 
@@ -3297,19 +3297,13 @@ function areEqual(a,b) {
 }
 
 /**
- * A fast function to check if an element is still in the DOM. It
- * tries to use an id as ids are indexed by the browser, or falls
- * back to jQuery's `contains` method. May fail if two elements
- * have the same id, but so be it
+ * No logger use `id` to check for some pages don't follow the unique-id rule.
  *
  * @param {object} $obj A jQuery-wrapped HTML element
  * @return {boolean}
  */
 function bodyContains($obj) {
-	var id = $obj.attr('id'),
-		el = id ? env.window.document.getElementById(id) : null;
-	// must also check that the element with the id is the one we want
-	return el ? el === $obj[0] : $.contains(env.window.document.body, $obj[0]);
+	return $.contains(env.window.document.body, $obj[0]);
 }
 
 // detect IE versions for dirty fixes
