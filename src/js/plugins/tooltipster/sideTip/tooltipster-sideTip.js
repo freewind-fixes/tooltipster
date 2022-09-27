@@ -259,8 +259,8 @@ $.tooltipster._plugin({
 				targets = self.__targetFind(helper),
 				testResults = [];
 			
-			// make sure the tooltip is detached while we make tests on a clone
-			self.__instance._$tooltip.detach();
+			// make sure the tooltip is hidden while we make tests on a clone
+			self.__instance._$tooltip.hide();
 			
 			// we could actually provide the original element to the Ruler and
 			// not a clone, but it just feels right to keep it out of the
@@ -819,8 +819,13 @@ $.tooltipster._plugin({
 					})
 					.css(arrowCoord.prop, arrowCoord.val);
 			
-			// append the tooltip HTML element to its parent
-			self.__instance._$tooltip.appendTo(self.__instance.option('parent'));
+			// only append the tooltip HTML element to its parent when its not contained in the parent
+			var $parent = self.__instance.option('parent');
+			var $tooltip = self.__instance._$tooltip;
+			if (!$.contains($parent.get(0), $tooltip.get(0))) {
+				$parent.append($tooltip);
+			}
+			$tooltip.show();
 			
 			self.__instance._trigger({
 				type: 'repositioned',

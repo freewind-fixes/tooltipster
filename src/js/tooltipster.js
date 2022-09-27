@@ -2809,9 +2809,9 @@ $.Tooltipster.prototype = {
 				if (tooltipIsDetached || bodyContains(self._$tooltip)) {
 					
 					if (!tooltipIsDetached) {
-						// detach in case the tooltip overflows the window and adds
+						// hide in case the tooltip overflows the window and adds
 						// scrollbars to it, so __geometry can be accurate
-						self._$tooltip.detach();
+						self._$tooltip.hide();
 					}
 					
 					// refresh the geometry object before passing it as a helper
@@ -3102,16 +3102,9 @@ Ruler.prototype = {
 	 * @private
 	 */
 	__forceRedraw: function() {
-		
-		// note: this would work but for Webkit only
-		//this.__$tooltip.close();
-		//this.__$tooltip[0].offsetHeight;
-		//this.__$tooltip.open();
-		
-		// works in FF too
-		var $p = this.__$tooltip.parent();
-		this.__$tooltip.detach();
-		this.__$tooltip.appendTo($p);
+		// A simple way to do this using jQuery
+		// https://stackoverflow.com/a/8840703
+		this.__$tooltip.hide().show(0);
 	},
 	
 	/**
